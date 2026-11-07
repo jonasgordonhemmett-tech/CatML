@@ -12,8 +12,10 @@ type expr =
      | If of expr * expr * expr
      (* Variables and let expressions *)
      | Var of var | Let of var * expr * expr
-
      (* TODO: Add pairs; functions; and recursive functions *)
+     | Pair of expr * expr | Fst of expr | Snd of expr
+     | Fun of var * expr
+     | App of expr * expr
 
 
 (*
@@ -22,9 +24,15 @@ type expr =
   out : true iff e is a value
 *)
 let is_val e = match e with 
-     Int _ -> true
-   | Bool _ -> true
-   | _ -> false
+  | Int _ -> true
+  | Bool _ -> true
+  | Fun _ -> tr
+  | Pair (e1, e2) ->
+    (match is_val e1 with
+      |True -> is_val e2
+      | False -> False
+    )
+  | _ -> false
 
 (*************************)
 (* Operational Semantics *)
