@@ -29,7 +29,7 @@ let is_val e = match e with
   | Fun _ -> tr
   | Pair (e1, e2) ->
     (match is_val e1 with
-      |True -> is_val e2
+      | True -> is_val e2
       | False -> False
     )
   | _ -> false
