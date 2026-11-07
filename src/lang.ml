@@ -16,6 +16,7 @@ type expr =
      | Pair of expr * expr | Fst of expr | Snd of expr
      | Fun of var * expr
      | App of expr * expr
+     | Fix of expr
 
 
 (*
@@ -26,11 +27,11 @@ type expr =
 let is_val e = match e with 
   | Int _ -> true
   | Bool _ -> true
-  | Fun _ -> tr
+  | Fun _ -> true
   | Pair (e1, e2) ->
     (match is_val e1 with
-      | True -> is_val e2
-      | False -> False
+      | true -> is_val e2
+      | false -> false
     )
   | _ -> false
 
@@ -51,6 +52,7 @@ let rec subst (x, v, e) : expr =
   | Mult(e1,e2) -> Mult(subst(x,v,e1), subst(x,v,e2))
   | Equal(e1,e2) -> Equal(subst(x,v,e1), subst(x,v,e2))
   | If(e0,e1,e2) -> If(subst(x,v,e0), subst(x,v,e1), subst(x,v,e2))
+  | Pair(e1, e2) -> Pair(subst(x, v, e1), (x, v, e2))
 
 type step_result = Step of expr | NotReducible
 (* 
@@ -131,6 +133,11 @@ let rec step (e : expr) : step_result =
       | Step e1' -> Step (Let(x,e1',e2))
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
+  | Fix (Fun(f, body)) -> subst(Fix(Fun(f, body))) f body
+  | App (Fun(f, body), e2) ->(
+    if is_val then ... else App(Fun(x, body), step e2)
+  
+  )
 
 
 (*
