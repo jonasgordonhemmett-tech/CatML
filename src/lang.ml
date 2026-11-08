@@ -139,10 +139,20 @@ let rec step (e : expr) : step_result =
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
   | Fix (Fun(f, body)) -> subst(Fix(Fun(f, body))) f body
-  | App (Fun(f, body), e2) ->(
-    if is_val e2 then subst e2 x body else App(Fun(x, body), step e2)
+  | App (Fun(f, body), e2) ->
+    If is_val e2 then
+      Step (subst(f, e2, body))
+    else
+      begin match step e2 with
+      | Step e2' -> Step(App(Fun(f, body), e2'))
+      | NotReducible -> NotReducible
+  | App (e1, e2) ->
+    begin match step e1 with
+    | Step e2' -> Step(App(Fun(x, body), e2'))
+    | NotReducible -> NotReducible
+
   
-  )
+
 
 
 (*
@@ -307,4 +317,4 @@ let rec stepper e = pretty_trace e true;;
 let rec tracer e = pretty_trace e false;;
 
 let () = 
-  let App(Fun("x", Plus("x", Int 1)), Int 2)
+  let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in 
