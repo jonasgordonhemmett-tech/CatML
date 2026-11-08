@@ -52,7 +52,12 @@ let rec subst (x, v, e) : expr =
   | Mult(e1,e2) -> Mult(subst(x,v,e1), subst(x,v,e2))
   | Equal(e1,e2) -> Equal(subst(x,v,e1), subst(x,v,e2))
   | If(e0,e1,e2) -> If(subst(x,v,e0), subst(x,v,e1), subst(x,v,e2))
-  | Pair(e1, e2) -> Pair(subst(x, v, e1), (x, v, e2))
+  | Pair(e1, e2) -> Pair(subst(x, v, e1), subst(x, v, e2))
+  | Fst e1 -> Fst(subst(x, v, e1))
+  | Snd e1 -> Snd(subst(x, v, e1))
+  | Fun(y, e1) -> Fun(y, if x = y then e1 else subst(x, v, e1))
+  | App(e1, e2) -> App(subst(x, v, e1), subst(x, v, e2))
+  | Fix e1 -> Fix(subst(x, v, e1))
 
 type step_result = Step of expr | NotReducible
 (* 
@@ -135,7 +140,7 @@ let rec step (e : expr) : step_result =
       end
   | Fix (Fun(f, body)) -> subst(Fix(Fun(f, body))) f body
   | App (Fun(f, body), e2) ->(
-    if is_val then ... else App(Fun(x, body), step e2)
+    if is_val e2 then subst e2 x body else App(Fun(x, body), step e2)
   
   )
 
@@ -226,7 +231,20 @@ let rec type_of_expr (g, e) : arith_type option =
       else None
     | _, _, _ -> None
     end
-
+  | Pair(e1, e2) ->
+    begin match type_of_expr (g, e1), type_of_expr(g, e2) with
+    | Some t1, Some t2 -> (Pair(t1, t2))
+    | _, _ -> None
+  | Fst e1 ->
+    begin match type_of_expr (g, e1) with
+    | Some (Pair(t1, _)) - Some t1
+    | _, _ -> None
+  | Snd e1 ->
+    begin match type_of_expr (g, e1) with
+    | Some (Pair(_, t2)) - Some t2
+    | _, _ -> None
+  
+  | Fix (e)
 
 
 (********************************************)
@@ -288,3 +306,5 @@ let rec stepper e = pretty_trace e true;;
 *)
 let rec tracer e = pretty_trace e false;;
 
+let () = 
+  let App(Fun("x", Plus("x", Int 1)), Int 2)
