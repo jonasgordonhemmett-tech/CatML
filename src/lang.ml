@@ -139,6 +139,7 @@ let rec step (e : expr) : step_result =
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
   | Fix (Fun(f, body)) -> subst(Fix(Fun(f, body))) f body
+  (*e.g. App(Fun("X"), Plus(Var "X", Int 0), Plus(Int 1, Int 2))*)
   | App (Fun(f, body), e2) ->
     If is_val e2 then
       Step (subst(f, e2, body))
@@ -146,10 +147,12 @@ let rec step (e : expr) : step_result =
       begin match step e2 with
       | Step e2' -> Step(App(Fun(f, body), e2'))
       | NotReducible -> NotReducible
+      end
   | App (e1, e2) ->
     begin match step e1 with
     | Step e2' -> Step(App(Fun(x, body), e2'))
     | NotReducible -> NotReducible
+    end
 
   
 
