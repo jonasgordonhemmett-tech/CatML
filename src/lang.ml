@@ -210,6 +210,7 @@ let rec lookup (g,x) : arith_type option =
  *)
 let extend (g,x,tp) : context = (x,tp)::g
 
+(*No Fun needed, already a val*)
 let rec type_of_expr (g, e) : arith_type option =
   match e with
   | Var x -> lookup(g,x)
@@ -262,7 +263,6 @@ let rec type_of_expr (g, e) : arith_type option =
     | Some (PAIR(_, t2)) -> Some t2
     | _ -> None
     end
-  
 
 
 (********************************************)
