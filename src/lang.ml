@@ -152,7 +152,7 @@ let rec step (e : expr) : step_result =
       end
   | App (e1, e2) ->
     begin match step e1 with
-    | Step e2' -> Step(App(e1', e2'))
+    | Step e1' -> Step(App(e1', e2))
     | NotReducible -> NotReducible
     end
 
