@@ -24,7 +24,7 @@ type expr =
   in : AST [[e]]
   out : true iff e is a value
 *)
-let is_val e = match e with 
+let rec is_val e = match e with 
   | Int _ -> true
   | Bool _ -> true
   | Fun _ -> true
@@ -138,10 +138,10 @@ let rec step (e : expr) : step_result =
       | Step e1' -> Step (Let(x,e1',e2))
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
-  | Fix (Fun(f, body)) -> subst(Fix(Fun(f, body))) f body
+  | Fix (Fun(f, body)) -> Step (subst (f, Fix (Fun (f, body)), body))
   (*e.g. App(Fun("X"), Plus(Var "X", Int 0), Plus(Int 1, Int 2))*)
   | App (Fun(f, body), e2) ->
-    If is_val e2 then
+    if is_val e2 then
       Step (subst(f, e2, body))
     else
       begin match step e2 with
@@ -150,7 +150,7 @@ let rec step (e : expr) : step_result =
       end
   | App (e1, e2) ->
     begin match step e1 with
-    | Step e2' -> Step(App(Fun(x, body), e2'))
+    | Step e2' -> Step(App(e1', e2'))
     | NotReducible -> NotReducible
     end
 
@@ -175,7 +175,7 @@ let rec multistep e = match step e with
 (* Type checking *)
 (*****************)
 
-type arith_type = INT | BOOL
+type arith_type = INT | BOOL | PAIR
 (* TODO: add pairs and function types *)
 
 (* Define a type to represent finite maps/typing contexts *)
@@ -246,18 +246,20 @@ let rec type_of_expr (g, e) : arith_type option =
     end
   | Pair(e1, e2) ->
     begin match type_of_expr (g, e1), type_of_expr(g, e2) with
-    | Some t1, Some t2 -> (Pair(t1, t2))
+    | Some t1, Some t2 -> (Some (PAIR(t1, t2)))
     | _, _ -> None
+    end
   | Fst e1 ->
     begin match type_of_expr (g, e1) with
-    | Some (Pair(t1, _)) - Some t1
+    | Some (Pair(t1, _)) -> Some t1
     | _, _ -> None
+    end
   | Snd e1 ->
     begin match type_of_expr (g, e1) with
-    | Some (Pair(_, t2)) - Some t2
+    | Some (Pair(_, t2)) -> Some t2
     | _, _ -> None
+    end
   
-  | Fix (e)
 
 
 (********************************************)
