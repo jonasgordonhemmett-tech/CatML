@@ -175,7 +175,7 @@ let rec multistep e = match step e with
 (* Type checking *)
 (*****************)
 
-type arith_type = INT | BOOL | PAIR
+type arith_type = INT | BOOL | PAIR of arith_type * arith_type | ARROW of arith_type * arith_type
 (* TODO: add pairs and function types *)
 
 (* Define a type to represent finite maps/typing contexts *)
