@@ -3,6 +3,8 @@
    ----------------------
 *)
 type var = string
+
+(* How code runs *)
 type expr =
      (* boolean expression forms *)
      | Bool of bool | And of expr * expr | Or of expr * expr | Not of expr
@@ -175,6 +177,7 @@ let rec multistep e = match step e with
 (* Type checking *)
 (*****************)
 
+(*For type checking*)
 type arith_type = INT | BOOL | PAIR of arith_type * arith_type | ARROW of arith_type * arith_type
 (* TODO: add pairs and function types *)
 
@@ -251,13 +254,13 @@ let rec type_of_expr (g, e) : arith_type option =
     end
   | Fst e1 ->
     begin match type_of_expr (g, e1) with
-    | Some (Pair(t1, _)) -> Some t1
-    | _, _ -> None
+    | Some (PAIR(t1, _)) -> Some t1
+    | _ -> None
     end
   | Snd e1 ->
     begin match type_of_expr (g, e1) with
-    | Some (Pair(_, t2)) -> Some t2
-    | _, _ -> None
+    | Some (PAIR(_, t2)) -> Some t2
+    | _ -> None
     end
   
 
