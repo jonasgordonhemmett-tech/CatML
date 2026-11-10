@@ -155,6 +155,7 @@ let rec step (e : expr) : step_result =
     | Step e1' -> Step(App(e1', e2))
     | NotReducible -> NotReducible
     end
+  | _ -> NotReducible
 
   
 
@@ -271,8 +272,9 @@ let rec type_of_expr (g, e) : arith_type option =
     end
   | Fix e1 ->
     begin match type_of_expr(g, e1) with
-    | Some (ARROW(t_in, t_out)) ->
-
+    _ -> None
+    end
+  | _ -> None
 
 (********************************************)
 (* Utility functions for working with ARITH *)
@@ -301,6 +303,13 @@ let rec string_of_expr e = match e with
    | If(e1, e2, e3) -> "If " ^ (string_of_expr e1) ^ 
                        " Then " ^ (string_of_expr e2) ^
                        " Else " ^ (string_of_expr e3)
+  | Pair(e1, e2) -> "(" ^ (string_of_expr e1) ^ ", " ^ (string_of_expr e2) ^ ")"
+  | Fst e1 -> "Fst(" ^ (string_of_expr e1) ^ ")"
+  | Snd e1 -> "Snd(" ^ (string_of_expr e1) ^ ")"
+  | Fun (x, e1) -> "(Fun " ^ x ^ " -> " ^ (string_of_expr e1) ^ ")"
+  | App(e1, e2) -> "(" ^ (string_of_expr e1) ^ " " ^ (string_of_expr e2) ^ ")"
+  | Fix(e1) -> "Fix(" ^ (string_of_expr e1) ^ ")"
+  | _-> ""
 
 
 (*
