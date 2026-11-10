@@ -266,9 +266,12 @@ let rec type_of_expr (g, e) : arith_type option =
   | App (e1, e2) ->
     begin match type_of_expr(g, e1), type_of_expr(g, e2) with
     | Some (ARROW(t_in, t_out)), Some t2 ->
-      if t_in = t2 then t_out else None
+      if t_in = t2 then Some t_out else None
     | _ -> None
     end
+  | Fix e1 ->
+    begin match type_of_expr(g, e1) with
+    | Some (ARROW(t_in, t_out)) ->
 
 
 (********************************************)
