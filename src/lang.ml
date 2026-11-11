@@ -211,7 +211,10 @@ let rec lookup (g,x) : arith_type option =
  *)
 let extend (g,x,tp) : context = (x,tp)::g
 
-(*Can't add fun, type can change at runtime*)
+(*Can't add fun, type can change at runtime?*)
+(*Do I need to add Fix and Fun?*)
+(* Change syntax so functions are annotated*)
+(*CHange func contrustor to declare type*)
 let rec type_of_expr (g, e) : arith_type option =
   match e with
   | Var x -> lookup(g,x)
