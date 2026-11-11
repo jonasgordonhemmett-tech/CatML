@@ -3,6 +3,9 @@
    ----------------------
 *)
 type var = string
+(*For type checking*)
+type arith_type = INT | BOOL | PAIR of arith_type * arith_type | ARROW of arith_type * arith_type
+(* TODO: add pairs and function types *)
 
 (* How code runs *)
 type expr =
@@ -16,7 +19,7 @@ type expr =
      | Var of var | Let of var * expr * expr
      (* TODO: Add pairs; functions; and recursive functions *)
      | Pair of expr * expr | Fst of expr | Snd of expr
-     | Fun of var * expr
+     | Fun of var * arith_type * expr
      | App of expr * expr
      | Fix of expr
 
@@ -57,7 +60,7 @@ let rec subst (x, v, e) : expr =
   | Pair(e1, e2) -> Pair(subst(x, v, e1), subst(x, v, e2))
   | Fst e1 -> Fst(subst(x, v, e1))
   | Snd e1 -> Snd(subst(x, v, e1))
-  | Fun(y, e1) -> Fun(y, if x = y then e1 else subst(x, v, e1))
+  | Fun(y, tp, e1) -> Fun(y, tp, if x = y then e1 else subst(x, v, e1))
   | App(e1, e2) -> App(subst(x, v, e1), subst(x, v, e2))
   | Fix e1 -> Fix(subst(x, v, e1))
 
@@ -140,14 +143,14 @@ let rec step (e : expr) : step_result =
       | Step e1' -> Step (Let(x,e1',e2))
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
-  | Fix (Fun(f, body)) -> Step (subst (f, Fix (Fun (f, body)), body))
+  | Fix (Fun(f, tp, body)) -> Step (subst (f, Fix (Fun (f, tp, body)), body))
   (*e.g. App(Fun("X"), Plus(Var "X", Int 0), Plus(Int 1, Int 2))*)
-  | App (Fun(f, body), e2) ->
+  | App (Fun(f, tp, body), e2) ->
     if is_val e2 then
       Step (subst(f, e2, body))
     else
       begin match step e2 with
-      | Step e2' -> Step(App(Fun(f, body), e2'))
+      | Step e2' -> Step(App(Fun(f, tp, body), e2'))
       | NotReducible -> NotReducible
       end
   | App (e1, e2) ->
@@ -270,6 +273,10 @@ let rec type_of_expr (g, e) : arith_type option =
       if t_in = t2 then Some t_out else None
     | _ -> None
     end
+  | Fun(x, tp_in, body) ->
+    begin match type_of_expr(extend(g, x, tp_in), body) with
+    | Some tp_out -> Some (ARROW(tp_in, tp_out))
+    | _ -> None
   | Fix e1 ->
     begin match type_of_expr(g, e1) with
     _ -> None
@@ -306,7 +313,7 @@ let rec string_of_expr e = match e with
   | Pair(e1, e2) -> "(" ^ (string_of_expr e1) ^ ", " ^ (string_of_expr e2) ^ ")"
   | Fst e1 -> "Fst(" ^ (string_of_expr e1) ^ ")"
   | Snd e1 -> "Snd(" ^ (string_of_expr e1) ^ ")"
-  | Fun (x, e1) -> "(Fun " ^ x ^ " -> " ^ (string_of_expr e1) ^ ")"
+  | Fun (x, tp, e1) -> "(Fun " ^ x ^ " -> " ^ (string_of_expr e1) ^ ")"
   | App(e1, e2) -> "(" ^ (string_of_expr e1) ^ " " ^ (string_of_expr e2) ^ ")"
   | Fix(e1) -> "Fix(" ^ (string_of_expr e1) ^ ")"
   | _-> ""
