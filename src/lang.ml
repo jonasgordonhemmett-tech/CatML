@@ -355,7 +355,9 @@ let rec stepper e = pretty_trace e true;;
 let rec tracer e = pretty_trace e false;;
 
 let () = 
-  let t1 = Pair(Int 5, Int 4) in match type_of_expr (empty_context, t1) with
+  let t1 = Pair(Int 5, Int 4) in begind match type_of_expr (empty_context, t1) with
   | Some (PAIR (INT, INT)) -> print_endline("Some (PAIR (INT, INT))")
   | _ -> prerr_endline("Nope")
+  end;
+  let t2 = Fix(Fun("x", INT, PLUS(VAR )))
   (* let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)
