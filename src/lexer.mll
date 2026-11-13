@@ -1,3 +1,4 @@
+(*for /f "tokens=*" %i in ('opam env') do @%*)
 {
 open Parser
 }

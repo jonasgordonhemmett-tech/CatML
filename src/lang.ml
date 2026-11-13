@@ -279,12 +279,12 @@ let rec type_of_expr (g, e) : arith_type option =
     | _ -> None
     end
   | Fix  (Fun(x, tp_in, body))->
-    begin match type_of_expr(g, e1) with
-    | Arrow(_, _) -> begin match type_of_expr((extend(g, x, tp_in), body)) with
-      | Some body_tp -> if body_tp = tp_in then Some tp else None
-      | _ -> None
+    begin match tp_in with
+    | ARROW(_, _) -> begin match type_of_expr((extend(g, x, tp_in), body)) with
+      | Some body_tp -> if body_tp = tp_in then Some tp_in else None
+      | _  -> None
       end
-    _ -> None
+    | _ -> None
     end
   | _ -> None
 
@@ -357,7 +357,10 @@ let rec tracer e = pretty_trace e false;;
 let () = 
   let t1 = Pair(Int 5, Int 4) in begind match type_of_expr (empty_context, t1) with
   | Some (PAIR (INT, INT)) -> print_endline("Some (PAIR (INT, INT))")
-  | _ -> prerr_endline("Nope")
+  | _ -> print_endline("Nope")
   end;
-  let t2 = Fix(Fun("x", INT, PLUS(VAR )))
+  let t2 = Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))) in begin match type_of_expr (empty_context, t1) with
+  | Some (ARROW (INT, INT)) -> print_endline("Some (ARROW (INT, INT))")
+  | _ -> print_endline("Nope")
+  end
   (* let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)
