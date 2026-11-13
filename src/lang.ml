@@ -2,6 +2,9 @@
    CatML Abstract Syntax
    ----------------------
 *)
+
+(* -ExecutionPolicy RemoteSigned -Scope CurrentUser
+& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ } *)
 type var = string
 (*For type checking*)
 type arith_type = INT | BOOL | PAIR of arith_type * arith_type | ARROW of arith_type * arith_type
@@ -355,11 +358,11 @@ let rec stepper e = pretty_trace e true;;
 let rec tracer e = pretty_trace e false;;
 
 let () = 
-  let t1 = Pair(Int 5, Int 4) in begind match type_of_expr (empty_context, t1) with
+  let t1 = Pair(Int 5, Int 4) in begin match type_of_expr (empty_context, t1) with
   | Some (PAIR (INT, INT)) -> print_endline("Some (PAIR (INT, INT))")
   | _ -> print_endline("Nope")
   end;
-  let t2 = Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))) in begin match type_of_expr (empty_context, t1) with
+  let t2 = Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))) in begin match type_of_expr (empty_context, t2) with
   | Some (ARROW (INT, INT)) -> print_endline("Some (ARROW (INT, INT))")
   | _ -> print_endline("Nope")
   end
