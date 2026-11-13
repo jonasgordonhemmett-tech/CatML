@@ -278,8 +278,12 @@ let rec type_of_expr (g, e) : arith_type option =
     | Some tp_out -> Some (ARROW(tp_in, tp_out))
     | _ -> None
     end
-  | Fix e1 ->
+  | Fix  (Fun(x, tp_in, body))->
     begin match type_of_expr(g, e1) with
+    | Arrow(_, _) -> begin match type_of_expr((extend(g, x, tp_in), body)) with
+      | Some body_tp -> if body_tp = tp_in then Some tp else None
+      | _ -> None
+      end
     _ -> None
     end
   | _ -> None
