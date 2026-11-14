@@ -7,8 +7,6 @@ let white = [' ' '\t']+
 let digit = ['0'-'9']
 let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
-(* let id = letter+ *)
-(* Allows number now *)
 let id = letter (letter | digit | '_')*
 
 rule read =
@@ -30,14 +28,11 @@ rule read =
   | "Fst" { FST }
   | "Snd" { SND }
   | "Fun" { FUN }
-  | "Fix" { Fix }
-  | "->" {ARROW }
+  | "Fix" { FIX }
+  | "->" { ARROW }
   | ":" { COLON }
-  | "Int" {T YPE_INT }
-  | "Bool" {T YPE_BOOL }
-  | "(" { RPAREN }
-  | ")" {LPAREN }
-
+  | "Int" { INT_TYPE }
+  | "Bool" { BOOL_TYPE }
   | id { ID (Lexing.lexeme lexbuf) }
   | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof { EOF }
