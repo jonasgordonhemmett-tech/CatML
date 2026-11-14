@@ -27,12 +27,17 @@ rule read =
   | "Then" { THEN }
   | "Else" { ELSE }
   | "," { COMMA }
-  | "Fst" {FST}
-  | "Snd" {SND}
-  | "Fun" {FUN}
-  | "Fix" {Fix}
-  | "->" {ARROW}\
-  
+  | "Fst" { FST }
+  | "Snd" { SND }
+  | "Fun" { FUN }
+  | "Fix" { Fix }
+  | "->" {ARROW }
+  | ":" { COLON }
+  | "Int" {T YPE_INT }
+  | "Bool" {T YPE_BOOL }
+  | "(" { RPAREN }
+  | ")" {LPAREN }
+
   | id { ID (Lexing.lexeme lexbuf) }
   | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof { EOF }
