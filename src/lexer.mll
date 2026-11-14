@@ -7,7 +7,9 @@ let white = [' ' '\t']+
 let digit = ['0'-'9']
 let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
-let id = letter+
+(* let id = letter+ *)
+(* Allows number now *)
+let id = letter (letter | digit | '_')*
 
 rule read =
   parse
@@ -24,6 +26,13 @@ rule read =
   | "If" { IF }
   | "Then" { THEN }
   | "Else" { ELSE }
+  | "," { COMMA }
+  | "Fst" {FST}
+  | "Snd" {SND}
+  | "Fun" {FUN}
+  | "Fix" {Fix}
+  | "->" {ARROW}\
+  
   | id { ID (Lexing.lexeme lexbuf) }
   | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof { EOF }

@@ -5,6 +5,18 @@
 
 (* -ExecutionPolicy RemoteSigned -Scope CurrentUser
 & opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ } *)
+
+(*cmd
+
+for /f "tokens=*" %i in ('opam env --shell=cmd --set-switch') do @%i
+
+dune build
+
+cd sec
+
+ocaml cat.ml
+
+*)
 type var = string
 (*For type checking*)
 type arith_type = INT | BOOL | PAIR of arith_type * arith_type | ARROW of arith_type * arith_type

@@ -1,5 +1,4 @@
-(library (name CatML))
-
+(library (name CatML) (modules (:standard \ main)))
+(executable (name main) (modules main) (libraries CatML))
 (menhir (modules parser))
-
 (ocamllex lexer)
