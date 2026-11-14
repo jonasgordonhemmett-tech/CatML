@@ -11,16 +11,26 @@ open Lang
 %token LPAREN
 %token RPAREN
 %token COMMA
+%token COLON
+%token ARROW
+%token INT_TYPE
+%token BOOL_TYPE
 %token LET
 %token EQUALS
 %token IN
 %token IF
 %token THEN
 %token ELSE
+%token FUN
+%token FIX
+%token FST
+%token SND
 %token EOF
 
 %nonassoc IN
 %nonassoc ELSE
+%nonassoc ARROW
+%right ARROW
 %left EQUALS
 %left PLUS
 %left TIMES
