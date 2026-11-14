@@ -10,6 +10,7 @@ open Lang
 %token PLUS
 %token LPAREN
 %token RPAREN
+%token COMMA
 %token LET
 %token EQUALS
 %token IN

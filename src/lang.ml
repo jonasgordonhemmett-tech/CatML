@@ -336,7 +336,7 @@ let rec string_of_expr e = match e with
   | Fun (x, tp, e1) -> "(Fun " ^ x ^ " -> " ^ (string_of_expr e1) ^ ")"
   | App(e1, e2) -> "(" ^ (string_of_expr e1) ^ " " ^ (string_of_expr e2) ^ ")"
   | Fix(e1) -> "Fix(" ^ (string_of_expr e1) ^ ")"
-  | _-> ""
+  (* | _-> "" *)
 
 
 (*
