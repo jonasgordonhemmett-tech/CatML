@@ -55,3 +55,14 @@ expr:
   | IF; e1 = expr; THEN; e2 = expr; ELSE; e3 = expr { If (e1, e2, e3) }
   | LPAREN; e=expr; RPAREN {e}
   ;
+
+atom_expr:
+  | i = INT  { Int i }
+  | x = ID   { Var x }
+  | TRUE     { Bool true }
+  | FALSE    { Bool false }
+  (*Pair)*)
+  | LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN { Pair (e1, e2) }
+  (*Parens*)
+  | LPAREN; e = expr; RPAREN { e }
+  ;
