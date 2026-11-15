@@ -377,5 +377,16 @@ let () =
   let t2 = Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))) in begin match type_of_expr (empty_context, t2) with
   | Some (ARROW (INT, INT)) -> print_endline("Some (ARROW (INT, INT))")
   | _ -> print_endline("Nope")
-  end
+  end;
+  let t3 = App(Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))), Int 5) in tracer t3
+  let t4 = 
+    App(
+      Fix("f", ARROW(INT, INT),
+        If(Equal(Var "x", Int 0),
+          Int 0,
+          Plus(Var "x", App(Var "f", 
+            Minus("x". Int 1)))
+            )
+          ), int 3
+    )
   (* let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)

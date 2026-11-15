@@ -12,7 +12,7 @@ let id = letter (letter | digit | '_')*
 rule read =
   parse
   | white { read lexbuf }
-  | "True" { TRUE }
+  | "True" { TRUE 
   | "False" { FALSE }
   | "*" { TIMES }
   | "+" { PLUS }

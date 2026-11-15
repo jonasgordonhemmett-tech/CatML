@@ -51,9 +51,9 @@ expr:
   | e1 = expr; AND; ex = expr { And(e1, e2)}
   | e1 = expr; OR; ex = expr { Or(e1, e2)}
   | NOT; e1 = expr {Not e1}
-  | FST; e1 {Fst e1}
-  | SND; e1 {Snd e1}
-  | Fix; e1 {}
+  | FST; e1 = expr {Fst e1}
+  | SND; e1 = expr {Snd e1}
+  | FIX; e1 = expr {Fix e1}
   | e1 = expr; EQUALS; e2 = expr { Equal (e1, e2) }
   | e1 = expr; TIMES;  e2 = expr { Mult(e1, e2) }
   | e1 = expr; PLUS;   e2 = expr { Plus(e1, e2) }
