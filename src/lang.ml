@@ -158,6 +158,12 @@ let rec step (e : expr) : step_result =
       | Step e1' -> Step (Let(x,e1',e2))
       | NotReducible -> if is_val e1 then Step(subst(x,e1,e2)) else NotReducible
       end
+  | Pair(e1, e2) ->
+      begin match step e1 with
+      | Step e1' -> Step(Pair(e1', e2))
+      | NotReducible ->
+        begin match step e2 with
+        | Step e2' -> Step(Pair(e1', e2'))
   | Fix (Fun(f, tp, body)) -> Step (subst (f, Fix (Fun (f, tp, body)), body))
   (*e.g. App(Fun("X"), Plus(Var "X", Int 0), Plus(Int 1, Int 2))*)
   | App (Fun(f, tp, body), e2) ->
@@ -379,6 +385,7 @@ let () =
   | _ -> print_endline("Nope")
   end;
   let t3 = App(Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))), Int 5) in tracer t3;
+  (*Sums from x to 0*)
   let t4 = 
     App(
       Fix(
