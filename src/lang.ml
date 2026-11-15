@@ -381,12 +381,17 @@ let () =
   let t3 = App(Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))), Int 5) in tracer t3
   let t4 = 
     App(
-      Fix("f", ARROW(INT, INT),
-        If(Equal(Var "x", Int 0),
-          Int 0,
-          Plus(Var "x", App(Var "f", 
-            Minus("x". Int 1)))
+      Fix(
+        Fun("f", ARROW(INT, INT),
+          Fun("x", INT,
+            If(Equal(Var "x", Int 0),
+              Int 0,
+              Plus(Var "x", App(Var "f", Plus(Var "x", Int (-1))))
             )
-          ), int 3
+          )
+        )
+      ),
+      Int 3
     )
+    in tracer t4
   (* let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)
