@@ -378,11 +378,13 @@ let () =
   | Some (ARROW (INT, INT)) -> print_endline("Some (ARROW (INT, INT))")
   | _ -> print_endline("Nope")
   end;
-  let t3 = App(Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))), Int 5) in tracer t3
+  let t3 = App(Fix(Fun("f", ARROW(INT, INT), Fun("x", INT, Plus(Var "x", Int 1)))), Int 5) in tracer t3;
   let t4 = 
     App(
       Fix(
+        (*Makes fix work*)
         Fun("f", ARROW(INT, INT),
+          (*Inner function*)
           Fun("x", INT,
             If(Equal(Var "x", Int 0),
               Int 0,
