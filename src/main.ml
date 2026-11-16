@@ -29,7 +29,8 @@ let do_stuff str =
 
 
 let test_cases ()=
-  print_endline ("Test!")
+  let case1 = "(((1 + 2) + 3) + 4)" in let ast1 = parse "1 + 2 + 3 + 4" in 
+  print_endline (case1 ^ ": " ^ string_of_bool (string_of_expr ast1 = case1))
 
 let () =
   (* do_stuff "Let x = 2 + 3 In x * 4";
