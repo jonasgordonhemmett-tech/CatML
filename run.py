@@ -3,12 +3,44 @@ import subprocess
 def run(cmd):
     return subprocess.run(["powershell", "-Command", cmd], capture_output=True, text=True)
 
-if __name__ == "__main__":
-    full_cmd = (
-        "(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }; "
-        "dune build; "
-        "dune exec ./src/main.exe -- expr.txt"
-    )
-    r = run(full_cmd)
+def write(file, text):
+    with open(f"data/{file}.txt", "w", encoding="utf-8") as f:
+        f.write(str(text))
 
-    print("Return code:", r.returncode)
+def ocaml(file):
+    file = file.split(".")[0]
+    try:
+        with open(f"data/{file}.txt") as _:
+            pass
+    except:
+        print(f"File {file} not found!")
+    else:
+        full_cmd = (
+            "(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }; "
+            "dune build; "
+            f"dune exec ./src/main.exe -- data/{file}.txt"
+        )
+        r = run(full_cmd)
+
+        print("Return code:", r.returncode)
+        print("STDOUT:", r.stdout)
+
+def menu():
+    while True:
+        choice = input("[1: Read file in OCaml, 2: Create new file, 0: Exit]: ")
+
+        match choice:
+            case "1":
+                choice2 = input("[Enter file name, 0: exit]: ")
+
+                if choice2 != "0": ocaml(choice2)
+            case "2":
+                choice2 = input("[Enter file name, 0: exit]: ")
+
+                choice3 = input("[Enter expression]: ")
+                write(choice2, choice3)
+            case "0":
+                break
+if __name__ == "__main__":
+    menu()
+
