@@ -30,8 +30,7 @@ def ocaml(file):
 
     r = run(full_cmd)
 
-    print("Return code:", r.returncode)
-    print("STDOUT:", r.stdout)
+    print(r.stdout)
 
 def menu():
     while True:
