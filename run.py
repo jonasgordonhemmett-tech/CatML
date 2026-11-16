@@ -14,8 +14,8 @@ def ocaml(file):
         file = file.split(".")[0]
         
         try:
-            with open(f"data/{file}.txt") as _:
-                pass
+            with open(f"data/{file}.txt") as f:
+                print(f"AST: {f}")
         except:
             print(f"File {file} not found!")
         else:
