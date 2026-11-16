@@ -333,7 +333,18 @@ let rec type_of_expr (g, e) : arith_type option =
 (********************************************)
 (* Utility functions for working with ARITH *)
 (********************************************)
-
+let rec string_of_type_opt tp_opt : string =
+  begin match tp_opt with
+  | Some tp ->
+    begin match tp with
+    | INT -> "Int"
+    | BOOL -> "Bool"
+    | PAIR (t1, t2) -> "(" ^ string_of_type_opt t1 ^ ", " ^ string_of_type t2 ^ ")"
+    | ARROW (t1, t2) -> "(" ^ string_of_type t1 ^ " -> " ^ string_of_type t2 ^ ")"
+    | _ -> ""
+    end
+  | _ -> ""
+  end
 
 
 (*
