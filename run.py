@@ -4,12 +4,15 @@ def run(cmd):
     return subprocess.run(["powershell", "-Command", cmd], capture_output=True, text=True)
 
 def write(file, text):
+    file = file.split(".")[0]
     with open(f"data/{file}.txt", "w", encoding="utf-8") as f:
         f.write(str(text))
 
 def ocaml(file):
     full_cmd = ""
     if file:
+        file = file.split(".")[0]
+        
         try:
             with open(f"data/{file}.txt") as _:
                 pass
