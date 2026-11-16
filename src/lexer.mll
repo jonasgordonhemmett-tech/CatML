@@ -3,7 +3,7 @@
 open Parser
 }
 
-let white = [' ' '\t']+
+let white = [' ' '\t' '\n']+
 let digit = ['0'-'9']
 let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
@@ -14,6 +14,9 @@ rule read =
   | white { read lexbuf }
   | "True" { TRUE }
   | "False" { FALSE }
+  | "And" {AND}
+  | "Or" {OR}
+  | "Not" {NOT}
   | "*" { TIMES }
   | "+" { PLUS }
   | "(" { LPAREN }
@@ -30,7 +33,6 @@ rule read =
   | "Fun" { FUN }
   | "Fix" { FIX }
   | "->" { ARROW }
-  | ":" { COLON }
   | "Int" { INT_TYPE }
   | "Bool" { BOOL_TYPE }
   | id { ID (Lexing.lexeme lexbuf) }

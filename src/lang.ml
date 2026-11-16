@@ -395,7 +395,7 @@ let rec stepper e = pretty_trace e true;;
   side effects : Pretty prints execution trace of e. 
 *)
 let rec tracer e = pretty_trace e false;;
-
+(* 
 let () = 
   let t1 = Pair(Int 5, Int 4) in begin match type_of_expr (empty_context, t1) with
   | Some (PAIR (INT, INT)) -> print_endline("Some (PAIR (INT, INT))")
@@ -424,4 +424,4 @@ let () =
       Int 3
     )
     in tracer t4
-  (* let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)
+  let App(Fun("x", Plus(Var "x", Int 1)), Int 2) in  *)
