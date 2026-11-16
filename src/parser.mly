@@ -56,6 +56,7 @@ tps:
   | INT_TP {INT}
   | BOOL_TP {BOOL}
   | t1 = tps; COMMA; t2 = tps {PAIR(t1, t2)}
+  | t1 = tps; ARROW; t2 = typs {ARRPW(t1, t2)}
   | LPAREN; t = tps; RPAREN {t}
 
 expr:
