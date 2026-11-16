@@ -17,6 +17,8 @@ let parse (s : string) : expr =
   let lexbuf = Lexing.from_string s in
   let ast = Parser.prog Lexer.read lexbuf in
   ast
+let read_file : string =
+  In_channel.with_open_text Sys.argv.(1) In_channel.input_all
 
 let do_stuff str = 
   let ast = parse str in 
@@ -24,9 +26,13 @@ let do_stuff str =
   print_endline ("Type of AST: " ^ string_of_type_opt (type_of_expr (empty_context, ast)));
   print_endline ("Result: " ^ string_of_expr (multistep ast))
 
+let do_file =
+  do_stuff read_file
+
 let () =
-  do_stuff "Let x = 2 + 3 In x * 4";
+  (* do_stuff "Let x = 2 + 3 In x * 4";
   do_stuff "Let sum = Fix (Fun f, (Int -> Int) -> Fun x, Int ->
   If x = 0 Then 0 Else x + (f (x + -1))) In sum 4";
   do_stuff "(Fun f, (Int -> Int) -> Fun x, Int ->
-  If x = 0 Then 0 Else x + (f (x + -1)))";
+  If x = 0 Then 0 Else x + (f (x + -1)))"; *)
+  do_file
