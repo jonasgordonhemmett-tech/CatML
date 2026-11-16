@@ -8,26 +8,34 @@ def write(file, text):
         f.write(str(text))
 
 def ocaml(file):
-    file = file.split(".")[0]
-    try:
-        with open(f"data/{file}.txt") as _:
-            pass
-    except:
-        print(f"File {file} not found!")
+    full_cmd = ""
+    if file:
+        try:
+            with open(f"data/{file}.txt") as _:
+                pass
+        except:
+            print(f"File {file} not found!")
+        else:
+            full_cmd = (
+                "(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }; "
+                "dune build; "
+                f"dune exec ./src/main.exe -- data/{file}.txt"
+            )
     else:
         full_cmd = (
             "(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }; "
             "dune build; "
-            f"dune exec ./src/main.exe -- data/{file}.txt"
+            f"dune exec ./src/main.exe --"
         )
-        r = run(full_cmd)
 
-        print("Return code:", r.returncode)
-        print("STDOUT:", r.stdout)
+    r = run(full_cmd)
+
+    print("Return code:", r.returncode)
+    print("STDOUT:", r.stdout)
 
 def menu():
     while True:
-        choice = input("[1: Read file in OCaml, 2: Create new file, 0: Exit]: ")
+        choice = input("[1: Read file in OCaml, 2: Create new file, 3: Run test cases, 0: Exit]: ")
 
         match choice:
             case "1":
@@ -39,6 +47,9 @@ def menu():
 
                 choice3 = input("[Enter expression]: ")
                 write(choice2, choice3)
+            case "3":
+                ocaml("")
+                
             case "0":
                 break
 if __name__ == "__main__":

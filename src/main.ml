@@ -29,10 +29,15 @@ let do_stuff str =
 let do_file =
   do_stuff read_file
 
+let test_cases =
+  print_endline ("Test")
 let () =
   (* do_stuff "Let x = 2 + 3 In x * 4";
   do_stuff "Let sum = Fix (Fun f, (Int -> Int) -> Fun x, Int ->
   If x = 0 Then 0 Else x + (f (x + -1))) In sum 4";
   do_stuff "(Fun f, (Int -> Int) -> Fun x, Int ->
   If x = 0 Then 0 Else x + (f (x + -1)))"; *)
-  do_file
+  if Array.length Sys.argv > 1 then
+    do_file
+  else
+    test_cases
