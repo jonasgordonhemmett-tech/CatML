@@ -15,7 +15,7 @@ def ocaml(file):
         
         try:
             with open(f"data/{file}.txt") as f:
-                print(f"AST: {f}")
+                print(f"AST: {f.read()}")
         except:
             print(f"File {file} not found!")
         else:
