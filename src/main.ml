@@ -27,5 +27,5 @@ let () =
   If x = 0 Then 0 Else x + (f (x + -1))) In sum 4" in
   let ast = parse input2 in
   print_endline ("Parsed AST: " ^ string_of_expr ast);
-  print_endline ("Type of AST:" ^ string_of_type (type_of_expr_opt (empty_context, ast)));
+  print_endline ("Type of AST: " ^ string_of_type_opt (type_of_expr (empty_context, ast)));
   print_endline ("Result: " ^ string_of_expr (multistep ast))
