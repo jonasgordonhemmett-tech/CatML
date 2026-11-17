@@ -27,18 +27,23 @@ let do_stuff str =
   print_endline ("Result: " ^ string_of_expr (multistep ast))
 
 
+let test_case (expected, ast) = 
+  let status = if string_of_expr ast = expected then "Passed" else "Failed" in 
+    print_endline (expected ^ ": " ^ status)
 
-let test_cases ()=
-  let case1 = "(((1 + 2) + 3) + 4)" in let ast1 = parse "1 + 2 + 3 + 4" in 
-  print_endline (case1 ^ ": " ^ string_of_bool (string_of_expr ast1 = case1))
+let test_cases () =
+  test_case("(((1 + 2) + 3) + 4)", parse "1 + 2 + 3 + 4");
+  
+  test_case("Let f = (Fun x -> (x + 1)) In (f 2)", parse "Let f = Fun x, Int -> x + 1 In f 2")
 
 let () =
   (* do_stuff "Let x = 2 + 3 In x * 4";
   do_stuff "Let sum = Fix (Fun f, (Int -> Int) -> Fun x, Int ->
   If x = 0 Then 0 Else x + (f (x + -1))) In sum 4";
   do_stuff "(Fun f, (Int -> Int) -> Fun x, Int ->
-  If x = 0 Then 0 Else x + (f (x + -1)))"; *)
+  If x = 0 Then 0 Else x + (f (x + -1)))"; 
+  *)
   if Array.length Sys.argv > 1 then
     do_stuff (read_file Sys.argv.(1))
   else
-    test_cases()
+    test_cases ()

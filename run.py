@@ -3,10 +3,25 @@ import subprocess
 def run(cmd):
     return subprocess.run(["powershell", "-Command", cmd], capture_output=True, text=True)
 
-def write(file, text):
+def write(file):
     file = file.split(".")[0]
+
+    try:
+        with open(f"data/{file}.txt") as _:
+            pass
+    except:
+        pass
+    else:
+        while True: 
+            match input("File already exits [1: Cancel, 0: Overwrite]: "):
+                case "1":
+                    return
+                case "0":
+                    break
+            
     with open(f"data/{file}.txt", "w", encoding="utf-8") as f:
-        f.write(str(text))
+        f.write(str( input("[Enter expression]: ")
+))
 
 def ocaml(file):
     full_cmd = ""
@@ -37,9 +52,7 @@ def ocaml(file):
 
 def menu():
     while True:
-        choice = input("[1: Read file in OCaml, 2: Create new file, 3: Run test cases, 0: Exit]: ")
-
-        match choice:
+        match input("[1: Read file in OCaml, 2: Create new file, 3: Run test cases, 0: Exit]: "):
             case "1":
                 choice2 = input("[Enter file name, 0: exit]: ")
 
@@ -47,8 +60,7 @@ def menu():
             case "2":
                 choice2 = input("[Enter file name, 0: exit]: ")
 
-                choice3 = input("[Enter expression]: ")
-                write(choice2, choice3)
+                write(choice2)
             case "3":
                 ocaml("")
                 
