@@ -363,7 +363,7 @@ let rec string_of_expr e = match e with
    | Or (e1, e2) -> "(" ^ (string_of_expr e1) ^ " Or " ^ (string_of_expr e2) ^ ")"
    | Not e1 -> "(Not " ^ (string_of_expr e1) ^ ")"
    | Plus (e1, e2) -> "(" ^ (string_of_expr e1) ^ " + " ^ (string_of_expr e2) ^ ")"
-   | Mult (e1, e2) -> "(" ^ (string_of_expr e1) ^ " x " ^ (string_of_expr e2) ^ ")"
+   | Mult (e1, e2) -> "(" ^ (string_of_expr e1) ^ " * " ^ (string_of_expr e2) ^ ")"
    | Equal (e1, e2) -> "(" ^ (string_of_expr e1) ^ " = " ^ (string_of_expr e2) ^ ")"
    | If(e1, e2, e3) -> "If " ^ (string_of_expr e1) ^ 
                        " Then " ^ (string_of_expr e2) ^
