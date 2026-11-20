@@ -99,7 +99,7 @@ I required functions to take in a type as input. Without this, functions such as
 
 I added a detailed test suite to test the parser, evaluator, and type-checker.
 
-I also build a Pyhton program [run.py](run.py) which allows you to easily create ASTS, process them through main.ml, and run test cases.
+I also build a Pyhton program [run.py](run.py) which allows you to easily create ASTs, process them through main.ml, and run test cases.
 
 5. Any feedback on the structure of this assignment?
 
