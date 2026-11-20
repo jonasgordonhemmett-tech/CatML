@@ -21,10 +21,12 @@ let read_file str : string =
   In_channel.with_open_text str In_channel.input_all
 
 let do_stuff str = 
-  let ast = parse str in 
-  print_endline ("Parsed AST: " ^ string_of_expr ast);
-  print_endline ("Type of AST: " ^ string_of_type_opt (type_of_expr (empty_context, ast)));
-  print_endline ("Result: " ^ string_of_expr (multistep ast))
+  match parse str with
+  | exception ex -> print_endline("AST could not be parsed!: " ^ Printexc.to_string ex)
+  |ast ->
+    print_endline ("Parsed AST: " ^ string_of_expr ast);
+    print_endline ("Type of AST: " ^ string_of_type_opt (type_of_expr (empty_context, ast)));
+    print_endline ("Result: " ^ string_of_expr (multistep ast))
 
 
 let test_case (str, expected_parsed, expected_type, expected_result) = 

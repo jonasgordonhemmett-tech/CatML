@@ -82,19 +82,19 @@ TODO
 
 1. If you worked as a group, list all the group members.
 
-TODO
+N/A
 
 2. Did you use generative AI to assist you in implementing this project? If so, briefly explain how you used it and for which components.
 
-TODO
+I used Gemini to help debug issue in lexer.mll, parser.mly, and run.py. I found it very helpful as I was able to rapidly fix issues.
 
 3. Did you make any design decisions that we should know about?
 
-TODO
+I required functions to take in a type as input. Without this, functions such as $Fun(x) → x$ would require evaluation to type check. 
 
 4. Did you implement any of the extra credit features? Briefly summarize your work.
 
-TODO
+I added a detailed test suite to test the parser, evaluator, and type-checker
 
 5. Any feedback on the structure of this assignment?
 

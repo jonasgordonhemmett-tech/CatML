@@ -8,9 +8,9 @@ let digit = ['0'-'9']
 let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
 let id = letter (letter | digit | '_')*
-
 rule read =
   parse
+  | _ { failwith ("Unexpected character: " ^ Lexing.lexeme lexbuf) }
   | white { read lexbuf }
   | "True" { TRUE }
   | "False" { FALSE }

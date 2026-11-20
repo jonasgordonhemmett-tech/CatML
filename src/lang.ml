@@ -172,7 +172,7 @@ let rec step (e : expr) : step_result =
     | Step e1' -> Step(Fst e1')
     | NotReducible ->
       begin match e1 with
-      | Pair(v1, _) -> if is_val v1  then Step v1 else NotReducible
+      | Pair(v1, v2) -> if is_val v1 && is_val v2 then Step v1 else NotReducible
       | _ -> NotReducible
       end
     end
@@ -181,7 +181,7 @@ let rec step (e : expr) : step_result =
     | Step e1' -> Step(Snd e1')
     | NotReducible ->
       begin match e1 with
-      | Pair(_, v2) -> if is_val v2  then Step v2 else NotReducible
+      | Pair(v1, v2) -> if is_val v1 && is_val v2 then Step v2 else NotReducible
       | _ -> NotReducible
       end
     end
