@@ -10,7 +10,6 @@ let letter = ['a'-'z' 'A'-'Z']
 let id = letter (letter | digit | '_')*
 rule read =
   parse
-  | _ { failwith ("Unexpected character: " ^ Lexing.lexeme lexbuf) }
   | white { read lexbuf }
   | "True" { TRUE }
   | "False" { FALSE }
@@ -38,3 +37,4 @@ rule read =
   | id { ID (Lexing.lexeme lexbuf) }
   | int { INT (int_of_string (Lexing.lexeme lexbuf)) }
   | eof { EOF }
+  | _ { failwith ("Unexpected character: " ^ Lexing.lexeme lexbuf) }

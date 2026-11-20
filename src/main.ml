@@ -83,8 +83,11 @@ let test_cases () =
 
   test_case("Fun x, Int -> x + 1", "(Fun x -> (x + 1))", "(Int -> Int)", "(Fun x -> (x + 1))");
 
-  test_case("Fix 1", "Fix(1)", "Type Error", "Fix(1)")
+  test_case("Fix 1", "Fix(1)", "Type Error", "Fix(1)");
 
+  do_stuff "Fst(True And 1, 2)";
+
+  do_stuff "Snd(True And 1, 2)"
 
 
 
