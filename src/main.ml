@@ -65,9 +65,11 @@ let test_cases () =
   test_case("(True, 1)", "(True, 1)", "(Bool, Int)", "(True, 1)");
   
   test_case("Fst (True, 1)", "Fst((True, 1))", "Bool", "True");
+  test_case("Fst(True And 1 + 2, 3)", "Fst(((True And (1 + 2)), 3))", "Type Error", "Fst(((True And 3), 3))");
 
   test_case("Snd (True, 1)", "Snd((True, 1))", "Int", "1");
-  
+  test_case("Snd(True And 1 + 2, 3)", "Snd(((True And (1 + 2)), 3))", "Type Error", "Snd(((True And 3), 3))");
+
   test_case("Fst(1)", "Fst(1)", "Type Error", "Fst(1)");
   test_case("Snd(True)", "Snd(True)", "Type Error", "Snd(True)");
 
@@ -83,11 +85,9 @@ let test_cases () =
 
   test_case("Fun x, Int -> x + 1", "(Fun x -> (x + 1))", "(Int -> Int)", "(Fun x -> (x + 1))");
 
-  test_case("Fix 1", "Fix(1)", "Type Error", "Fix(1)");
+  test_case("Fix 1", "Fix(1)", "Type Error", "Fix(1)")
 
-  do_stuff "Fst(True And 1, 2)";
 
-  do_stuff "Snd(True And 1, 2)"
 
 
 
