@@ -73,7 +73,7 @@ In the `examples` directory I have included two sample CatML programs. You shoul
 
 ## How to interact with a CatML program
 
-Running [run.py](run.py) will allow you to easily interact with CatML. This program may get flagged by your antivirus software so you might need to    it.
+Running [run.py](run.py) will allow you to easily interact with CatML. This program might get flagged by your antivirus software, you may need to override it.
 
 main.ml can also be ran directly through powershell:
 * Run ```(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }```
@@ -93,13 +93,13 @@ I used Gemini to help debug issue in lexer.mll, parser.mly, and run.py. I found 
 
 3. Did you make any design decisions that we should know about?
 
-I required functions to take in a type as input. Without this, functions such as $Fun(x) → x$ would require evaluation to type check. 
+I required functions to take in a type as input. Without this, functions such as $Fun(x) → x$ would require evaluation to type check. This means functions are now written like ```Let f = Fun x, Int -> x + 1 In f 2``` in CatML.
 
 4. Did you implement any of the extra credit features? Briefly summarize your work.
 
 I added a detailed test suite to test the parser, evaluator, and type-checker.
 
-I also build a Pyhton program (run.py) which allows you to easily create ASTS, process them through main.ml, and run test cases.
+I also build a Pyhton program [run.py](run.py) which allows you to easily create ASTS, process them through main.ml, and run test cases.
 
 5. Any feedback on the structure of this assignment?
 

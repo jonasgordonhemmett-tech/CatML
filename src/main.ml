@@ -23,7 +23,7 @@ let read_file str : string =
 let do_stuff str = 
   match parse str with
   | exception ex -> print_endline("AST could not be parsed!: " ^ Printexc.to_string ex)
-  |ast ->
+  | ast ->
     print_endline ("Parsed AST: " ^ string_of_expr ast);
     print_endline ("Type of AST: " ^ string_of_type_opt (type_of_expr (empty_context, ast)));
     print_endline ("Result: " ^ string_of_expr (multistep ast))
