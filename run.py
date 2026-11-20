@@ -69,6 +69,7 @@ def menu():
                 
             case "0":
                 break
+            
     print("Goodbye!")
 if __name__ == "__main__":
     menu()
