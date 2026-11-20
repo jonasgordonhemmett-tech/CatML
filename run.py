@@ -55,7 +55,7 @@ def menu():
     print("---= Jonas's CatML --- ")
     print()
     while True:
-        match input("[1: Read file in OCaml, 2: Create new file, 3: Run test cases, 0: Exit]: "):
+        match input("[1: Read AST file in OCaml, 2: Create new AST file, 3: Run test cases, 0: Exit]: "):
             case "1":
                 choice2 = input("[Enter file name, 0: exit]: ")
 
