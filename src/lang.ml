@@ -376,7 +376,6 @@ let rec string_of_expr e = match e with
   | Fix(e1) -> "Fix(" ^ (string_of_expr e1) ^ ")"
   (* | _-> "" *)
 
-
 (*
   pretty_trace : expr -> bool -> unit
   in : AST [[e]], stepper flag 
