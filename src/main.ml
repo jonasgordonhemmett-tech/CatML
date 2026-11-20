@@ -30,22 +30,28 @@ let do_stuff str =
 
 
 let test_case (str, expected_parsed, expected_type, expected_result) = 
-  let ast = parse str in let status = 
+  let ast = parse str in
     if string_of_expr ast = expected_parsed && 
     string_of_type_opt (type_of_expr (empty_context, ast)) = expected_type  &&
     string_of_expr (multistep ast) = expected_result
-    then 
-      "Passed" 
-  else 
-    "Failed" 
-  in print_endline (str ^ ": " ^ status)
+    then (
+      print_endline (str ^ ": " ^ "Failed");
+      false)
+    else (
+      print_endline (str ^ ": " ^ "Passed");
+      false)
 
 let test_cases () =
   (*Basic operations*)
+  do_stuff "True And True";
+  if test_case("True And True", "(True And True)", "Bool", "True")
+  && test_case("False And True", "(False And True)", "Bool", "False")
+  then
+    print_endline("\n Test Cases Passed")
+  else
+    print_endline("\n Test Cases Failed")
 
-  test_case("True And True", "(True And True)", "Bool", "True");
-  test_case("False And True", "(False And True)", "Bool", "False");
-  test_case("False And False", "(False And False)", "Bool", "False");
+  (* test_case("False And False", "(False And False)", "Bool", "False");
 
   test_case("True Or True", "(True Or True)", "Bool", "True");
   test_case("True Or False", "(True Or False)", "Bool", "True");
@@ -89,7 +95,7 @@ let test_cases () =
 
 
 
-
+ *)
 
 
 

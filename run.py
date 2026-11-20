@@ -51,6 +51,9 @@ def ocaml(file):
     print(r.stdout)
 
 def menu():
+    print("______________________")
+    print("---= Jonas's CatML --- ")
+    print()
     while True:
         match input("[1: Read file in OCaml, 2: Create new file, 3: Run test cases, 0: Exit]: "):
             case "1":

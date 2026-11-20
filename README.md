@@ -1,6 +1,4 @@
-# Assignment 8, CS3250
-
-TODO: Update this README and fill out the reflection questions.
+# Jonas Hemmett, Assignment 8, CS3250
 
 This repository contains a (template) implementation of CatML, an ML variant used at UVM for CS3250.
 
@@ -75,8 +73,13 @@ In the `examples` directory I have included two sample CatML programs. You shoul
 
 ## How to interact with a CatML program
 
-TODO
+Running [run.py](run.py) will allow you to easily interact with CatML. This program may get flagged by your antivirus software so you might need to    it.
 
+main.ml can also be ran directly through powershell:
+* Run ```(& opam env) -split '\r?\n' | ForEach-Object { Invoke-Expression $_ }```
+* Run ```dune build```
+* Run ```dune exec ./src/main.exe --``` to run test cases
+* Run ```dune exec ./src/main.exe -- data/expr_file.txt``` to process an AST, [expr_file.txt](data/expr_file.txt) can be replaced with any AST file in [data](data)
 
 # Reflection Questions
 
@@ -94,8 +97,10 @@ I required functions to take in a type as input. Without this, functions such as
 
 4. Did you implement any of the extra credit features? Briefly summarize your work.
 
-I added a detailed test suite to test the parser, evaluator, and type-checker
+I added a detailed test suite to test the parser, evaluator, and type-checker.
+
+I also build a Pyhton program (run.py) which allows you to easily create ASTS, process them through main.ml, and run test cases.
 
 5. Any feedback on the structure of this assignment?
 
-TODO
+N/A
