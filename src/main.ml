@@ -55,7 +55,7 @@ let test_cases () =
   && test_case("True Or True", "(True Or True)", "Bool", "True")
   && test_case("True Or False", "(True Or False)", "Bool", "True")
   && test_case("False Or False", "(False Or False)", "Bool", "False")
-  
+
   && test_case("Not True", "(Not True)", "Bool", "False")
   && test_case("Not False", "(Not False)", "Bool", "True")
   && test_case("Not 1", "(Not 1)", "Type Error", "(Not 1)")
