@@ -13,10 +13,10 @@ def write(file):
         pass
     else:
         while True: 
-            match input("File already exits [1: Cancel, 0: Overwrite]: "):
-                case "1":
-                    return
+            match input("File already exits [1: Overwrite, 0: Cancel]: "):
                 case "0":
+                    return
+                case "1":
                     break
             
     with open(f"data/{file}.txt", "w", encoding="utf-8") as f:
